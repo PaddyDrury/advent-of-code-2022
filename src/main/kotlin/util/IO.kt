@@ -1,8 +1,10 @@
 package util
 
 import io.ktor.client.*
-import io.ktor.client.features.*
+
+import io.ktor.client.plugins.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -19,7 +21,7 @@ fun loadInputFromServer(year: String, day: String): List<String> =
     }.let {
         runBlocking {
             withContext(Dispatchers.Default) {
-                it.get<String>("https://adventofcode.com/$year/day/$day/input")
+                it.get("https://adventofcode.com/$year/day/$day/input").bodyAsText()
             }
         }
     }.trim().lines()
